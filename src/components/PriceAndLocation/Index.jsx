@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { number, string } from 'prop-types';
+import { string } from 'prop-types';
 
 function PriceAndLocation({ rate, location }) {
   return (
@@ -18,7 +19,7 @@ function PriceAndLocation({ rate, location }) {
 }
 
 PriceAndLocation.propTypes = {
-  rate: number.isRequired,
+  rate: string.isRequired,
   location: string.isRequired
 };
 

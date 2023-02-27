@@ -14,18 +14,24 @@ const getASpot = async (id) => {
   return response;
 };
 
-const listNewSpot = async ({ title, description, price }) => {
+const deleteASpot = async (id) => {
+  const response = await instance.delete(`/spots/${id}`);
+  return response;
+};
+
+const listNewSpot = async ({ title, description, price, images }) => {
   const response = await instance.post('/spots', {
     title,
     description,
     price,
-    user_id: 1
+    user_id: 1,
+    url: images
   });
   return response;
 };
 
-const editASpot = async ({ title, description, price }) => {
-  const response = await instance.put('/spots', {
+const editASpot = async ({ title, description, price }, id) => {
+  const response = await instance.put(`/spots/${id}`, {
     title,
     description,
     price,
@@ -35,4 +41,4 @@ const editASpot = async ({ title, description, price }) => {
 };
 
 // export all of them from here
-export { getAllSpots, getASpot, listNewSpot, editASpot };
+export { getAllSpots, getASpot, listNewSpot, editASpot, deleteASpot };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 const HomePage = React.lazy(() => import('../pages/HomePage'));
@@ -8,12 +8,14 @@ const ShowSpotListingPage = React.lazy(() => import('../pages/ShowSpotListingPag
 
 function Router() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/list-a-spot" element={<ListSpotPage />} />
-      <Route path="/edit/:id" element={<EditSpotPage />} />
-      <Route path="/show/:id" element={<ShowSpotListingPage />} />
-    </Routes>
+    <Suspense fallback={<div>Loading....</div>}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/list-a-spot" element={<ListSpotPage />} />
+        <Route path="/edit/:id" element={<EditSpotPage />} />
+        <Route path="/show/:id" element={<ShowSpotListingPage />} />
+      </Routes>
+    </Suspense>
   );
 }
 

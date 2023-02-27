@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getASpot, editASpot } from '../../api';
 
 const schema = yup.object({
@@ -15,8 +15,9 @@ const schema = yup.object({
 });
 
 function EditSpotPage() {
+  const navigate = useNavigate();
   const { id } = useParams();
-  const [spot, setSpot] = useState({});
+  const [spot, setSpot] = useState({ title: '', description: '', price: '' });
 
   useEffect(() => {
     getASpot(id)
@@ -25,8 +26,12 @@ function EditSpotPage() {
   }, []);
 
   const handleFormSubmit = useCallback((values) => {
-    editASpot(values)
-      .then((res) => console.log(res))
+    editASpot(values, id)
+      .then((res) => {
+        console.log(res);
+        alert('Successfully Edited a Spot');
+        navigate('/');
+      })
       .catch((e) => console.log(e));
   }, []);
 

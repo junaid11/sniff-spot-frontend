@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { number } from 'prop-types';
+// import { number } from 'prop-types';
 import Review from '../../../../components/Review';
 
 function ShowSpotListingHeaderSignInCard({ price, stars, count }) {
@@ -12,9 +13,9 @@ function ShowSpotListingHeaderSignInCard({ price, stars, count }) {
         <div className="d-flex justify-content-between align-items-center mt-3">
           <div className="d-flex align-items-center">
             <h4 className="m-0 me-1">{`$ ${price}`}</h4>
-            <p className="m-0">per dog per hour</p>
+            <span className="m-0">per dog per hour</span>
           </div>
-          <Review stars={stars} count={count} />
+          {count ? <Review stars={stars} count={count} /> : 'Not Rated'}
         </div>
         <div className="d-grid gap-2">
           <Button className="disabled btn-lg" variant="light">
@@ -29,10 +30,10 @@ function ShowSpotListingHeaderSignInCard({ price, stars, count }) {
   );
 }
 
-ShowSpotListingHeaderSignInCard.propTypes = {
-  price: number.isRequired,
-  stars: number.isRequired,
-  count: number.isRequired
-};
+// ShowSpotListingHeaderSignInCard.propTypes = {
+//   price: number.isRequired,
+//   stars: number.isRequired,
+//   count: number.isRequired
+// };
 
 export default ShowSpotListingHeaderSignInCard;

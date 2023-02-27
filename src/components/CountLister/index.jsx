@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import { number } from 'prop-types';
+// import { number } from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function CountLister({ count }) {
@@ -11,8 +12,8 @@ function CountLister({ count }) {
   );
 }
 
-CountLister.propTypes = {
-  count: number.isRequired
-};
+// CountLister.propTypes = {
+//   count: number.isRequired
+// };
 
 export default CountLister;

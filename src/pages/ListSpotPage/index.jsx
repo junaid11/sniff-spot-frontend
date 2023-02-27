@@ -1,11 +1,16 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable import/no-extraneous-dependencies */
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import React, { useCallback } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from 'react-router-dom';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { listNewSpot } from '../../api';
+import { storage } from '../../firebaseConfig';
 
 const schema = yup.object({
   title: yup.string().required(),
@@ -14,17 +19,61 @@ const schema = yup.object({
 });
 
 function ListSpotPage() {
-  const handleFormSubmit = useCallback((values) => {
-    listNewSpot(values)
-      .then((res) => console.log(res))
-      .catch((e) => console.log(e));
-  }, []);
+  const navigate = useNavigate();
+  const [images, setImages] = useState([]);
+  // const [urls, setUrls] = useState([]);
+
+  const onImageChange = (e) => {
+    setImages([...images, ...e.target.files]);
+  };
+
+  const handleUploads = async (values) => {
+    const promises = [];
+    images.forEach(async (image) => {
+      const storageRef = ref(storage, `/images/${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+      promises.push(uploadTask);
+      // const uploadTask = storage.ref(`images/${image.name}`).put(image);
+      // promises.push(uploadTask);
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          console.log(progress);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+      const url = await getDownloadURL(uploadTask.snapshot.ref);
+      values.images.push(url);
+    });
+
+    Promise.all(promises).then(() => {
+      listNewSpot(values)
+        .then((res) => {
+          console.log(res);
+          alert('Successfully added a Spot');
+          navigate('/');
+          setImages([]);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  };
+
+  const handleFormSubmit = (values) => {
+    handleUploads(values);
+    console.log(values);
+  };
 
   return (
     <Row className="p-5">
       <Col>
         <Formik
-          initialValues={{ title: '', description: '', price: '' }}
+          initialValues={{ title: '', description: '', price: '', images: [] }}
           validationSchema={schema}
           onSubmit={handleFormSubmit}>
           {({ handleSubmit, handleChange, values, errors }) => (
@@ -50,6 +99,17 @@ function ListSpotPage() {
                   value={values.description}
                   onChange={handleChange}
                   isInvalid={errors.description}
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Add Images</Form.Label>
+                <Form.Control
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  id="image"
+                  multiple
+                  onChange={onImageChange}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="price">

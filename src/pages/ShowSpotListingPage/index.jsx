@@ -18,7 +18,7 @@ function ShowSpotListingPage() {
   return Object.keys(spot).length !== 0 ? (
     <div className="container pt-5">
       <ShowSpotListingHeader spot={spot} />
-      <ShowSpotListingImageCarousel />
+      <ShowSpotListingImageCarousel images={spot.images} />
       <ShowSpotListingReviews reviews={spot.reviews} />
     </div>
   ) : (

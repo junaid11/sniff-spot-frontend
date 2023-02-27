@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { number, shape, string } from 'prop-types';
+import { shape, string } from 'prop-types';
 import Review from '../../../components/Review';
 import ShowSpotListingHeaderSignInCard from './ShowSpotListingHeaderSignInCard';
 
@@ -50,7 +51,7 @@ function ShowSpotListingHeader({ spot: { title, price, reviews } }) {
 }
 
 ShowSpotListingHeader.propTypes = {
-  spot: shape({ title: string.isRequired, price: number.isRequired }).isRequired
+  spot: shape({ title: string.isRequired, price: string.isRequired }).isRequired
 };
 
 export default ShowSpotListingHeader;

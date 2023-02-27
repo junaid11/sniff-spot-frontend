@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getAllSpots } from '../../../api';
-import CountLister from '../../../components/CountLister';
+// import CountLister from '../../../components/CountLister';
 import ListingCardGroup from '../../../components/ListingCardGroup';
 
 function HomePageContent() {
@@ -15,8 +15,8 @@ function HomePageContent() {
   return (
     <div className="container">
       <h1>Off leash dog parks for rent near you</h1>
-      <CountLister count={listings.length} />
-      <ListingCardGroup listings={listings} />
+      {/* <CountLister count={listings.length} /> */}
+      <ListingCardGroup listings={listings} setListings={setListings} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import string from 'prop-types';
 
 function SniffspotLogo({ width = '32', height = '32' }) {
   return (
@@ -20,10 +20,5 @@ function SniffspotLogo({ width = '32', height = '32' }) {
     </svg>
   );
 }
-
-SniffspotLogo.propTypes = {
-  width: string.isRequired,
-  height: string.isRequired
-};
 
 export default SniffspotLogo;
